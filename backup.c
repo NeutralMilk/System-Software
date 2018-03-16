@@ -7,21 +7,25 @@
 //my .h files
 #include "backup.h"
 #include "date.h"
+#include "lock.h"
 
 
 void backup()
 {
     char source[] = "/var/www/html/live";
-    char dest[] = "/var/www/html/backups";
+    char dest[] = "/var/www/html/backups/";
     
-    //lockAllFiles(source);
+    //lock
+    lock(0700);
     
     char dateBuffer[80];
     char * buffer = date(dateBuffer);
     strcat(dest, buffer);
-    printf("%s", dest);
+    printf("%s, %s", dest, dateBuffer);
     
     char* args[] = {"cp", "-R", source, dest, NULL};
     execv("/bin/cp", args);
-    //unlockAllFiles(source);
+    
+    //unlock
+    lock(0700);
 }

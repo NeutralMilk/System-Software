@@ -21,8 +21,8 @@ int main()
     double seconds;
     time(&now);  /* get current time; same as: now = time(NULL)  */
     newyear = *localtime(&now);
-    newyear.tm_hour = 21;
-    newyear.tm_min = 23;
+    newyear.tm_hour = 12;
+    newyear.tm_min = 22;
     newyear.tm_sec = 0;
     /*newyear.tm_mon = 0;
     newyear.tm_mday = 1;*/
@@ -31,8 +31,6 @@ int main()
 
     // Create a child process
     int pid = fork();
-    backup();
-    update();
 
     if (pid > 0)
     {
@@ -101,19 +99,22 @@ int main()
              printf("\n%.f", seconds);
              if (seconds == 0)
              {
-                char mode[] = "0000";
+                backup();
+                update();
+                printf("This ran");
+                /*char mode[] = "0000";
                 char buf[100] = "/home/jmccarthy/Documents/Apps/week4/ClassExample/myfolder/";
                 int i;
                 i = strtol(mode, 0, 8);
                 if (chmod (buf,i) < 0)
                 {
                 // do something if needed
-                }
+                }*/
             }
           }
        }
     }
 
-    return 0;
+return 0;
 }
 

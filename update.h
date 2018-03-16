@@ -1,6 +1,6 @@
 #ifndef update_h
 #define update_h
 
-void update();
+void update(void);
 
 #endif // update_h

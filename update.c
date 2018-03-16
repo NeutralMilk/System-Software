@@ -12,7 +12,7 @@
 void update()
 {
     //source and destination
-    char * update_exec_path = "rsync -r /var/www/html/intranet /var/www/html/live";
+    char * update_exec_path = "rsync -r /var/www/html/intranet/ /var/www/html/live/";
     
     if(system(update_exec_path) > 0)
     {
