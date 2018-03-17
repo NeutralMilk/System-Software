@@ -27,5 +27,5 @@ void backup()
     execv("/bin/cp", args);
     
     //unlock
-    lock(0700);
+    lock(0777);
 }

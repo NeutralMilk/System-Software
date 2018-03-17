@@ -10,9 +10,9 @@
 #include <time.h>
 #include "update.h"
 #include "backup.h"
+#include <fcntl.h>
 
-
-
+#define MAX_BUF 1024
 
 int main()
 {
@@ -21,11 +21,19 @@ int main()
     double seconds;
     time(&now);  /* get current time; same as: now = time(NULL)  */
     newyear = *localtime(&now);
-    newyear.tm_hour = 12;
-    newyear.tm_min = 22;
+    newyear.tm_hour = 13;
+    newyear.tm_min = 45;
     newyear.tm_sec = 0;
-    /*newyear.tm_mon = 0;
-    newyear.tm_mday = 1;*/
+    
+    int fd;
+    char * fifoFile = "/tmp/fifoFile";
+    char buf[MAX_BUF];
+    
+    fd = open(fifoFile, O_RDONLY);
+    read(fd,buf,MAX_BUF);
+    
+    printf("message in: %s \n", buf);
+    close (fd);
 
     // Implementation for Singleton Pattern if desired (Only one instance running)
 

@@ -21,4 +21,4 @@ lock.o : lock.c
 	$(CC) -c lock.c
     
 clean:
-	rm myprog $(objects)
+	rm -r myprog $(objects)
