@@ -21,19 +21,9 @@ int main()
     double seconds;
     time(&now);  /* get current time; same as: now = time(NULL)  */
     newyear = *localtime(&now);
-    newyear.tm_hour = 13;
-    newyear.tm_min = 45;
+    newyear.tm_hour = 15;
+    newyear.tm_min = 40;
     newyear.tm_sec = 0;
-    
-    int fd;
-    char * fifoFile = "/tmp/fifoFile";
-    char buf[MAX_BUF];
-    
-    fd = open(fifoFile, O_RDONLY);
-    read(fd,buf,MAX_BUF);
-    
-    printf("message in: %s \n", buf);
-    close (fd);
 
     // Implementation for Singleton Pattern if desired (Only one instance running)
 
@@ -88,16 +78,6 @@ int main()
              close (x);
           }
 
-          // Signal Handler goes here
-
-          // Log file goes here
-
-          // Orphan Logic goes here!!
-          // Keep process running with infinite loop
-          // When the parent finishes after 10 seconds,
-          // the getppid() will return 1 as the parent (init process)
-
-          
           while(1)
           {
              sleep(1);
@@ -105,20 +85,33 @@ int main()
              time(&now);
              seconds = difftime(now,mktime(&newyear));
              printf("\n%.f", seconds);
+              
+            //when the difference between the curent time and our desired time is 0, this will run.
              if (seconds == 0)
              {
                 backup();
                 update();
-                printf("This ran");
-                /*char mode[] = "0000";
-                char buf[100] = "/home/jmccarthy/Documents/Apps/week4/ClassExample/myfolder/";
-                int i;
-                i = strtol(mode, 0, 8);
-                if (chmod (buf,i) < 0)
-                {
-                // do something if needed
-                }*/
+                audit();
             }
+
+            //continuously looking out for a message from the backup and update.
+            int fd;
+            char * fifoFile = "/tmp/fifoFile";
+            char buf[MAX_BUF];
+            fd = open(fifoFile, O_RDONLY);
+            read(fd,buf,MAX_BUF);
+            if(strcmp(buf, "backup") == 0)
+            {
+                backup();
+                audit();
+            }
+              
+            if(strcmp(buf, "update") == 0)
+            {
+                update();
+                audit();
+            }
+            close (fd);
           }
        }
     }

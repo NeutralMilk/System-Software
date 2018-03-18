@@ -1,8 +1,8 @@
 CC = gcc
-objects = main.o update.o backup.o date.o lock.o
-headers = update.h backup.h date.h lock.h
+objects = main.o update.o backup.o date.o lock.o audit.o
+headers = update.h backup.h date.h lock.h audit.h
 
-myprog : $(objects)
+daemon : $(objects)
 	$(CC) -o $@ $^ -lm
     
 main.o : $(headers)
@@ -19,6 +19,8 @@ date.o : date.c
     
 lock.o : lock.c
 	$(CC) -c lock.c
-    
+
+audit.o : audit.c
+	$(CC) -c audit.c
 clean:
-	rm -r myprog $(objects)
+	rm daemon $(objects)
