@@ -12,12 +12,19 @@
 void update()
 {
     //source and destination
-    char * update_exec_path = "rsync -r /var/www/html/intranet/ /var/www/html/live/";
+    char * path = "rsync -r /var/www/html/intranet/index.html /var/www/html/live/";
     
-    if(system(update_exec_path) > 0)
+    int i = system(path);
+    if(i < 0)
     {
-        openlog ("error_log", LOG_PID|LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Live website was not updated: %s", strerror(errno));
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Website was not updated.");
+        closelog();
+    }
+    else
+    {
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Website was updated successfully.");
         closelog();
     }
 }

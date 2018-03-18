@@ -11,10 +11,10 @@ int main()
     //create the FIFO (named pipe)
     mkfifo(fifoFile, 0666);
     
+    char msg[] = "update";
     fd = open (fifoFile, O_WRONLY);
-    write(fd, "This works", sizeof("This works"));
+    write(fd, msg, sizeof(msg));
     close(fd);
-    
     unlink(fifoFile);
     return 0;
 }

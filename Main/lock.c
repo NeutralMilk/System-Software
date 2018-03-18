@@ -21,11 +21,17 @@ void lock(int mode)
     
     i = mode;
     
-    int m = chmod(path, i);
-    if(m < 0)
+    int i = chmod(path, i);
+    if(i < 0)
     {
-        openlog("locklog", LOG_PID|LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Failed to lock files: %s", strerror(errno));
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Files are unlocked");
+        closelog();
+    }
+    else
+    {
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Files are locked.");
         closelog();
     }
     

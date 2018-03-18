@@ -22,7 +22,7 @@ int main()
     time(&now);  /* get current time; same as: now = time(NULL)  */
     newyear = *localtime(&now);
     newyear.tm_hour = 15;
-    newyear.tm_min = 40;
+    newyear.tm_min = 49;
     newyear.tm_sec = 0;
 
     // Implementation for Singleton Pattern if desired (Only one instance running)

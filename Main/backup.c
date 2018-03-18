@@ -21,10 +21,24 @@ void backup()
     char dateBuffer[80];
     char * buffer = date(dateBuffer);
     strcat(dest, buffer);
-    printf("%s, %s", dest, dateBuffer);
     
-    char* args[] = {"cp", "-R", source, dest, NULL};
-    execv("/bin/cp", args);
+    char path[200];
+    strcpy(path, "cp -r /var/www/html/live /var/www/html/backups/");
+    strcat(path, buffer);
+    int i = system(path);
+    
+    if(i < 0)
+    {
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Website was not backed up.");
+        closelog();
+    }
+    else
+    {
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Website was backed up successfully.");
+        closelog();
+    }
     
     //unlock
     lock(0777);

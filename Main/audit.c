@@ -17,12 +17,15 @@ void audit()
     
     if(i < 0)
     {
-        //worked
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Audit failed.");
+        closelog();
     }
-    
     else
     {
-        //didn't work
+        openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
+        syslog(LOG_INFO, "Audit complete.");
+        closelog();
     }
         
     
