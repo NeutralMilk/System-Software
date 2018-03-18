@@ -12,7 +12,11 @@
 void update()
 {
     //source and destination
-    char * path = "rsync -r /var/www/html/intranet/index.html /var/www/html/live/";
+    char path[200];
+    strcpy(path, "cp -u -a /var/www/html/intranet/. /var/www/html/live");
+    
+    //lock
+    //lock(0700);
     
     int i = system(path);
     if(i < 0)
@@ -27,4 +31,7 @@ void update()
         syslog(LOG_INFO, "Website was updated successfully.");
         closelog();
     }
+    
+    //unlock
+    //lock(0777);
 }

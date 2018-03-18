@@ -21,8 +21,8 @@ int main()
     double seconds;
     time(&now);  /* get current time; same as: now = time(NULL)  */
     newyear = *localtime(&now);
-    newyear.tm_hour = 15;
-    newyear.tm_min = 49;
+    newyear.tm_hour = 18;
+    newyear.tm_min = 37;
     newyear.tm_sec = 0;
 
     // Implementation for Singleton Pattern if desired (Only one instance running)
@@ -91,26 +91,24 @@ int main()
              {
                 backup();
                 update();
-                audit();
             }
 
             //continuously looking out for a message from the backup and update.
             int fd;
             char * fifoFile = "/tmp/fifoFile";
-            char buf[MAX_BUF];
+            char buf[MAX_BUF] = "";
             fd = open(fifoFile, O_RDONLY);
             read(fd,buf,MAX_BUF);
             if(strcmp(buf, "backup") == 0)
             {
                 backup();
-                audit();
             }
               
             if(strcmp(buf, "update") == 0)
             {
                 update();
-                audit();
             }
+            audit();
             close (fd);
           }
        }

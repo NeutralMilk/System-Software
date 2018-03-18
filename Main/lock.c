@@ -13,25 +13,19 @@ void lock(int mode)
     int i;
     int exception_int;
     
-    struct stat st;
-    
-    char path[100] = "/var/ww/html/live";
-    
-    stat (path, &st);
-    
-    i = mode;
-    
-    int i = chmod(path, i);
+    char path[100] = "/var/www/html/";
+            
+    i = chmod(path, mode);
     if(i < 0)
     {
         openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Files are unlocked");
+        syslog(LOG_INFO, "Lock unsuccessful");
         closelog();
     }
     else
     {
         openlog ("assignment_log", LOG_PID|LOG_CONS, LOG_USER);
-        syslog(LOG_INFO, "Files are locked.");
+        syslog(LOG_INFO, "Lock successful.");
         closelog();
     }
     
